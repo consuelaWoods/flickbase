@@ -1,0 +1,50 @@
+//in root folder
+npm init
+npm install express@4.18.1
+npm install mongoose@6.3.3
+npm install nodemon
+npm install concurrently
+
+//clean data
+npm install xss-clean@0.1.1
+npm install express-mongo-sanitize@2.2.0
+
+npm install express-validator@6.14.0
+npm install body-parser@1.20.0
+npm i validator@13.7.0
+
+npm install mongoose-aggregate-paginate-v2@1.0.6
+npm install accesscontrol@2.2.1
+npm install 
+
+npm install dotenv@16.0.1
+npm install http-status@1.5.2
+
+//tokens, auth, etc
+npm install bcrypt@5.0.1
+npm install jsonwebtoken@8.5.1
+npm install passport 
+npm install passport-jwt
+
+//emails
+npm install nodemailer
+npm install mailgen
+
+//root should have a git repo, client should not
+//in client folder
+npx create-react-app .
+use cmd-shift-. in finder to delete .git folder
+ls -a   //no .git folder
+move .gitignore to root
+    add /client/node_modules
+    add .env
+
+
+// mongoDB
+// cwoods88keys@yahoo.com:&.3gMYX#eq4Th9i
+// cwoods:FDQ7SwZueVyvocoB
+// Current IP Address (72.181.61.59/32) added!
+// mongodb+srv://cwoods:FDQ7SwZueVyvocoB@cluster0.bvlaowc.mongodb.net/?retryWrites=true&w=majority
+
+//google email
+// app=Flickbase pass=kyvlfhjocaleyezp
