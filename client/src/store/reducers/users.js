@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
     registerUser,
-    signInUser
+    signInUser,
+    isAuth
 } from '../actions/users';
 
 let DEFAULT_USER_STATE = {
@@ -29,33 +30,42 @@ export const usersSlice = createSlice({
         builder
         // REGISTER
         .addCase(registerUser.pending,
-                (state) => {state.loading = true}
-            )
+            (state) => {state.loading = true}
+        )
         .addCase(registerUser.fulfilled, 
-                (state, action) => {
-                    state.loading = false;
-                    state.data = action.payload.data;
-                    state.auth = action.payload.auth;
-                }
-            )
+            (state, action) => {
+                state.loading = false;
+                state.data = action.payload.data;
+                state.auth = action.payload.auth;
+            }
+        )
         .addCase(registerUser.rejected,
-                (state) => {state.loading = false}
-            )
+            (state) => {state.loading = false}
+        )
         
         //SIGNIN
          .addCase(signInUser.pending,
             (state) => {state.loading = true}
-            )
+        )
         .addCase(signInUser.fulfilled, 
-                (state, action) => {
-                    state.loading = false;
-                    state.data = action.payload.data;
-                    state.auth = action.payload.auth;
-                }
-            )
+            (state, action) => {
+                state.loading = false;
+                state.data = action.payload.data;
+                state.auth = action.payload.auth;
+            }
+        )
         .addCase(signInUser.rejected,
-                (state) => {state.loading = false}
-            )
+            (state) => {state.loading = false}
+        )
+
+        // IS AUTHENTICATED
+        .addCase(isAuth.pending, (state) => {state.loading = true})
+        .addCase(isAuth.fulfilled, (state, action) => {
+            state.loading = false;
+            state.data = {...state.data, ...action.payload.data}
+            state.auth = action.payload.auth
+        })
+        .addCase(isAuth.rejected, (state) => {state.loading = false})
     }
 });
 export default usersSlice.reducer;
