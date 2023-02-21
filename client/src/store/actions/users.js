@@ -55,3 +55,10 @@ export const isAuth = createAsyncThunk(
         }
     }
 )
+
+export const signOut = createAsyncThunk(
+    'user/signOut',
+    async() => {
+        removeTokenCookie();
+    }
+)
