@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SideDrawer from './sideDrawer';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,6 +12,7 @@ const Header = () => {
     const users = useSelector( state => state.users);
     const notifications = useSelector( state => state.notifications);
     const dispatch = useDispatch();
+    let navigate = useNavigate();
 
     useEffect ( () => {
         let { global } = notifications;
@@ -30,6 +31,7 @@ const Header = () => {
     const signOutUser = () => {
         // alert ('sign out')
         dispatch(signOut())
+        navigate('/')
     }
 
     return (

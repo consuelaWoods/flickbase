@@ -3,6 +3,7 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAuth } from './store/actions/users';
 import { Loader } from './utils/tools';
+import AuthGuard from './components/hoc/authGuard';
 
 import MainLayout from './components/hoc/mainLayout';
 import Header from './components/navigation/header';
@@ -33,7 +34,9 @@ const Router = () => {
             <Header/>
             <MainLayout>
                 <Routes>
-                    <Route path='/dashboard' element={<Dashboard/>}/>
+                    <Route path='/dashboard' element={
+                        <AuthGuard><Dashboard/></AuthGuard>
+                    }/>
                     <Route path='/auth' element={<Auth/>}/>
                     <Route path='/' element={<Home/>}/>
                 </Routes>
