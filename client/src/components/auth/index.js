@@ -52,7 +52,7 @@ const Auth = () => {
     }, [notifications])
 
     return (
-        <PreventSignIn users={users}>
+        // <PreventSignIn users={users}>
             <div className='auth_container'>
                 <h1>Authenticate</h1>
                 { users.loading
@@ -101,7 +101,7 @@ const Auth = () => {
                     </Box>
                 }
             </div>
-        </PreventSignIn>
+        // </PreventSignIn>
     )
 }
 export default Auth;

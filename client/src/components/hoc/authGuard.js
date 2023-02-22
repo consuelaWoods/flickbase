@@ -3,8 +3,9 @@ import { Navigate, useLocation } from 'react-router-dom';
 
 
 const AuthGuard = (props) => {
-    const users = useSelector( state => state.users);
+    const users = useSelector(state => state.users);
     let location = useLocation();
+    console.log(users.auth, " in authGuard")
 
     if (!users.auth) {
         return <Navigate to='/auth' state={{from:location}} replace/>

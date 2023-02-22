@@ -9,7 +9,12 @@ import MainLayout from './components/hoc/mainLayout';
 import Header from './components/navigation/header';
 import Home from './components/home';
 import Auth from './components/auth';
+
+//ADMIN users
 import Dashboard from './components/dashboard';
+import AdminArticles from './components/dashboard/articles';
+import AdminProfile from './components/dashboard/profile';
+import DashboardMain from './components/dashboard/main';
 
 const Router = () => {
     const [loading, setLoading] = useState(true);
@@ -21,7 +26,7 @@ const Router = () => {
     },[])
 
     useEffect( () => {
-        if (users.aut !== null) {
+        if (users.auth !== null) {
             setLoading(false)
         }
     }, [users])
@@ -35,12 +40,18 @@ const Router = () => {
             <MainLayout>
                 <Routes>
                     <Route path='/dashboard' element={
-                        <AuthGuard><Dashboard/></AuthGuard>
-                    }/>
+                        // <AuthGuard>
+                            <Dashboard/>
+                        // </AuthGuard>
+                    }>
+                        <Route index element={<DashboardMain/>}/>
+                        <Route path='profile' element={<AdminProfile/>}/>
+                        <Route path='articles' element={<AdminArticles/>}/>
+                    </Route>
                     <Route path='/auth' element={<Auth/>}/>
                     <Route path='/' element={<Home/>}/>
                 </Routes>
-                </MainLayout>
+            </MainLayout>
             </>
         }
         </BrowserRouter>

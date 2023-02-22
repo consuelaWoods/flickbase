@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import SideDrawer from './sideDrawer';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,12 +7,15 @@ import { useEffect } from 'react';
 import { clearNotifications } from '../../store/reducers/notifications';
 import { showToast } from "../../utils/tools";
 import { signOut } from "../../store/actions/users";
+import { setLayout } from '../../store/reducers/site';
 
 const Header = () => {
     const users = useSelector( state => state.users);
     const notifications = useSelector( state => state.notifications);
+    const site = useSelector( state => state.site );
     const dispatch = useDispatch();
     let navigate = useNavigate();
+    let location = useLocation();
 
     useEffect ( () => {
         let { global } = notifications;
@@ -28,6 +31,15 @@ const Header = () => {
         }
     }, [notifications])     //watch for changes in notifications
 
+    useEffect( () => {
+        let pathname = location.pathname.split('/');
+        if (pathname[1] === 'dashboard') {
+            dispatch(setLayout('dash_layout'))
+        } else {
+            dispatch(setLayout(''))
+        }
+    }, [location.pathname, dispatch])
+
     const signOutUser = () => {
         // alert ('sign out')
         dispatch(signOut())
@@ -35,7 +47,7 @@ const Header = () => {
     }
 
     return (
-        <nav className="navbar fixed-top">
+        <nav className={`navbar fixed-top ${site.layout}`}>
             <Link to="/" className='navbar-brand d-flex align-items-center fredoka_ff'>
                 Flickbase
             </Link>
