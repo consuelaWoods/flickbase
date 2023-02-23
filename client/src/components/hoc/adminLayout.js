@@ -10,6 +10,9 @@ import {
 const AdminLayout = (props) => {
     const users = useSelector(state => state.users)
     console.log(users, 'AdminLayout')
+    // console.log(users.data, "DATA")
+    // console.log(users.data.email, "EMAIL")
+    // console.log(users.data.role, "ROLE")
 
     return (
         <> 
@@ -25,7 +28,7 @@ const AdminLayout = (props) => {
                                 <ListItemText primary='Profile'/>
                             </ListItem>
                             
-                            { users.data.role === 'admin'
+                            {/* { users.data.role=== 'admin'
                                 ? <>
                                     <ListItem button 
                                         component={RouterLink}
@@ -35,8 +38,13 @@ const AdminLayout = (props) => {
                                     </ListItem>
                                 </>
                                 : null
-                            }
-                           
+                            } */}
+                            <ListItem button 
+                                        component={RouterLink}
+                                        to='/dashboard/articles'
+                                    >
+                                        <ListItemText primary='Articles'/>
+                                    </ListItem>
                         </List>
                     </div>
                 </nav>
