@@ -9,6 +9,7 @@ import {
 
 const AdminLayout = (props) => {
     const users = useSelector(state => state.users)
+    console.log(users, 'AdminLayout')
 
     return (
         <> 

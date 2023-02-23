@@ -4,8 +4,8 @@ const AdminArticles = () => {
     
     return (
         <>
-            Admin Articles
             <AdminTitle title="Articles"/>
+            Admin Articles go here
         </>
     )
 }
