@@ -48,6 +48,13 @@ npm install react-bootstrap@2.3.1
 
 npm install formik@2.2.9
 npm install yup@0.32.11
+npm install draft-js@0.11.7
+npm install draft-js-export-html@1.4.1
+npm install html-to-draftjs@1.5.0
+npm install react-draft-wysiwyg
+if errors: npm install jpuri/react-draft-wysiwyg#pull/1245/head
+to remove a package:npm uninstall react-draft-wysiwyg
+  check node_modules to see if it no longer exists
 
 npm install @mui/material@5.7.0 @emotion/react@11.9.0  @emotion/styled@11.8.1 @mui/icons-material@5.6.2
 npm install react-cookies@0.1.1 react-moment@1.1.2 react-toastify@9.0.1

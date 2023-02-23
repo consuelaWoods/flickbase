@@ -22,7 +22,8 @@ import { visuallyHidden } from '@mui/utils';
 import { AdminTitle } from '../../../../utils/tools';
 import { errorHelper, Loader } from '../../../../utils/tools';
 
-import { validation, formValues } from './validationSchema'
+import { validation, formValues } from './validationSchema';
+import WYSIWYG from '../../../../utils/forms/wysiwyg';
 
 const AddArticle = () => {
     const articles = useSelector(state => state.articles);
@@ -38,6 +39,15 @@ const AddArticle = () => {
             console.log(values, 'add.js')
         }
     })
+
+    const handleEditorState = (state) => {
+        console.log(state)
+        formik.setFieldValue('content',state,true)
+    }
+    const [editorBlur, setEditorBlur] = useState(false)
+    const handleEditorBlur = (blur) => {
+        setEditorBlur(true)
+    }
 
     return (
         <>
@@ -55,7 +65,18 @@ const AddArticle = () => {
                     />
                 </div>
                 <div className='form-group'>
-                    WYSIWYG
+                    <WYSIWYG
+                        setEditorState = {(state) => handleEditorState(state)}
+                        setEditorBlur = {(blur) => handleEditorBlur(blur)}
+                        onError={formik.errors.content}
+                        editorBlur={editorBlur}
+                    />
+                    { formik.errors.content || (formik.errors.content && editorBlur)
+                        ?<FormHelperText error={true}>
+                            {formik.errors.content}
+                        </FormHelperText>
+                        : null
+                    }
                 </div>
                 <div className='form-group'>
                     <TextField
@@ -105,7 +126,7 @@ const AddArticle = () => {
                                         </IconButton>
                                     </Paper>
                                     { formik.errors.actors && formik.touched.actors
-                                        ? <FormHelperText error='true'>
+                                        ? <FormHelperText error={true}> 
                                             { formik.errors.actors}
                                         </FormHelperText>
                                         : null
@@ -157,7 +178,7 @@ const AddArticle = () => {
                         <MenuItem value="public"><em>Public</em></MenuItem>
                     </Select>
                     { formik.errors.status && formik.touched.status
-                        ? <FormHelperText error="true">
+                        ? <FormHelperText error={true}>
                             { formik.errors.status }
                         </FormHelperText>
                         :null
