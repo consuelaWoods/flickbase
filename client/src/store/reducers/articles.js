@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
     addArticle,
-    getPageArticles
+    getPageArticles,
+    changeStatus
 } from '../actions/articles';
 
 export const articlesSlice = createSlice({
@@ -31,6 +32,11 @@ export const articlesSlice = createSlice({
             state.adminArticles = action.payload;
         })
         .addCase(getPageArticles.rejected, (state) => {state.loading = false})
+
+        //UPDATE STATUS
+        .addCase(changeStatus.fulfilled, (state, action) => {
+            state.adminArticles.docs = action.payload
+        })
     }
 });
 export default articlesSlice.reducer;

@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { errorGlobal, successGlobal } from '../reducers/notifications';
 import { getAuthHeader } from '../../utils/tools';
+import { create } from '@mui/material/styles/createTransitions';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -60,6 +61,32 @@ export const getPageArticles = createAsyncThunk(
             );
             console.log(request.data, 'actions');
             return request.data;
+        } catch(error){
+            dispatch(errorGlobal(error.response.data.message))
+            throw error
+        }
+    }
+)
+export const changeStatus = createAsyncThunk(
+    //http://127.0.0.1:3001/api/articles/article/63eeaa697edcd88a5d0156ca
+    'articles/changeStatus',
+    async({newStatus, _id}, {dispatch, getState}) => {
+        try {
+            const request = await axios.patch(
+                `/api/articles/article/${_id}`, 
+                {status:newStatus}, 
+                getAuthHeader());
+            
+            //refresh screen
+            let article = request.data;
+            let state = getState().articles.adminArticles.docs;
+            let position = state.findIndex( article => article._id === _id);
+            //copy state and mutate the copy
+            const newState = [...state];
+            newState[position] = article;
+            dispatch(successGlobal('Status updated!!'))
+            return newState;
+
         } catch(error){
             dispatch(errorGlobal(error.response.data.message))
             throw error

@@ -3,7 +3,14 @@ import Moment from 'react-moment';
 
 import { Loader } from '../../../utils/tools';
 
-const Paginate = ({articles}) => {
+const Paginate = ({
+    articles,
+    gotoPrevPage,
+    gotoNextPage,
+    gotoEdit,
+    handleStatusChange
+
+}) => {
 
     return (
         <>
@@ -32,14 +39,14 @@ const Paginate = ({articles}) => {
                                     </td>
                                     <td className='action_btn edit_btn'
                                         onClick={() => {
-                                            alert("to be updated")
+                                            gotoEdit(item._id)
                                         }}
                                     >
                                         Edit
                                     </td>
                                     <td className='action_btn status_btn'
                                         onClick={() => {
-                                            alert("to be ??")
+                                            handleStatusChange(item.status, item._id)
                                         }}
                                     >
                                         {item.status}
@@ -51,8 +58,12 @@ const Paginate = ({articles}) => {
                     <Pagination>
                         {articles.hasPrevPage
                             ? <>
-                                <Pagination.Prev/>
-                                <Pagination.Item>
+                                <Pagination.Prev 
+                                    onClick={() => gotoPrevPage(articles.prevPage)}
+                                />
+                                <Pagination.Item
+                                    onClick={() => gotoPrevPage(articles.prevPage)}
+                                >
                                     {articles.prevPage}
                                 </Pagination.Item>
                             </>
@@ -63,10 +74,14 @@ const Paginate = ({articles}) => {
                         </Pagination.Item>
                         {articles.hasNextPage
                             ?<>
-                                <Pagination.Item>
+                                <Pagination.Item
+                                    onClick={() => gotoNextPage(articles.nextPage)}
+                                >
                                     {articles.nextPage}
                                 </Pagination.Item>
-                                <Pagination.Next/>
+                                <Pagination.Next
+                                    onClick={() => gotoNextPage(articles.nextPage)}
+                                />
                             </>
                             : null
                         }

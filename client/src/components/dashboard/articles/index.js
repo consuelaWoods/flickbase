@@ -14,7 +14,7 @@ import {
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { AdminTitle } from '../../../utils/tools'
-import { getPageArticles } from '../../../store/actions/articles';
+import { getPageArticles, changeStatus } from '../../../store/actions/articles';
 import Paginate from './paginate';
 
 const AdminArticles = () => {
@@ -24,8 +24,23 @@ const AdminArticles = () => {
 
     useEffect( () => {
         dispatch(getPageArticles({}))
-        console.log(articles, 'index/dispatch')
+        // console.log(articles, 'index/dispatch')
     }, [])
+
+    // PAGINATION FUNCTIONS
+    const gotoPrevPage = (page) => {
+        dispatch(getPageArticles({page}))
+    }
+    const gotoNextPage = (page) => {
+        dispatch(getPageArticles({page}))
+    }
+    const gotoEdit = (id) => {
+        navigate(`/dashboard/articles/edit/${id}`)
+    }
+    const handleStatusChange = (status, _id) => {
+        let newStatus = status === 'draft' ? 'public' : 'draft'
+        dispatch(changeStatus({newStatus, _id}))
+    }
     
     return (
         <>
@@ -53,6 +68,10 @@ const AdminArticles = () => {
                 <>
                     <Paginate 
                         articles={articles.adminArticles}
+                        gotoPrevPage={(page) => gotoPrevPage(page)}
+                        gotoNextPage={(page) => gotoNextPage(page)}
+                        gotoEdit={(id) => gotoEdit(id)}
+                        handleStatusChange={(status, id) => handleStatusChange(status, id)}
                     />
                 </>
                 
