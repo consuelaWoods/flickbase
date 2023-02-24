@@ -25,10 +25,12 @@ import { errorHelper, Loader } from '../../../../utils/tools';
 import { validation, formValues } from './validationSchema';
 import WYSIWYG from '../../../../utils/forms/wysiwyg';
 
+import { addArticle } from '../../../../store/actions/articles';
+
 const AddArticle = () => {
     const articles = useSelector(state => state.articles);
     const dispatch = useDispatch();
-
+    let navigate = useNavigate();
     const actorsValue = useRef('');
 
     const formik = useFormik({
@@ -36,7 +38,12 @@ const AddArticle = () => {
         initialValues: formValues,
         validationSchema: validation,
         onSubmit: (values) => {
-            console.log(values, 'add.js')
+            console.log(values, 'add.js');
+            dispatch(addArticle(values))
+            .unwrap()
+            .then( () => {
+                navigate('/dashboard/articles')
+            })
         }
     })
 
@@ -186,13 +193,17 @@ const AddArticle = () => {
                 </FormControl>
                 <Divider className='mt-3 mb-3'/>
 
-                <Button
-                    variant='contained'
-                    color='primary'
-                    type='submit'
-                >
-                    ADD ARTICLE
-                </Button>
+                { articles.loading 
+                    ? <Loader/>
+                    : <Button
+                        variant='contained'
+                        color='primary'
+                        type='submit'
+                    >
+                        ADD ARTICLE
+                    </Button>
+                }
+                
             </form>
         </>
     )
