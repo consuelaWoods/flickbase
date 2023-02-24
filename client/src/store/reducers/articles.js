@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-    addArticle
+    addArticle,
+    getPageArticles
 } from '../actions/articles';
 
 export const articlesSlice = createSlice({
@@ -11,17 +12,25 @@ export const articlesSlice = createSlice({
         articles: [],
         current: null
     },
-    reducers: {
-
-    },
-    extraReduces:(builder) => {
+    reducers: {},
+    extraReducers:(builder) => {
         builder
+        // ADD 
         .addCase(addArticle.pending, (state) => {state.loading = true})
         .addCase(addArticle.fulfilled, (state, action) => {
             state.loading = false;
             state.lastAdded = action.payload;
         })
         .addCase(addArticle.rejected, (state) => {state.loading = false})
+
+        // GET A PAGE OF ARTICLES
+        .addCase(getPageArticles.pending, (state) => {state.loading = true})
+        .addCase(getPageArticles.fulfilled, (state, action) => {
+            state.loading = false;
+            console.log(action.payload, 'reducer')
+            state.adminArticles = action.payload;
+        })
+        .addCase(getPageArticles.rejected, (state) => {state.loading = false})
     }
 });
 export default articlesSlice.reducer;
