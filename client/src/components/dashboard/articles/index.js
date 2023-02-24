@@ -9,12 +9,17 @@ import {
     ButtonGroup,
     InputGroup,
     FormControl,
-    Form
+    Form,
+    ModalHeader
 } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { AdminTitle } from '../../../utils/tools'
-import { getPageArticles, changeStatus } from '../../../store/actions/articles';
+import { 
+    getPageArticles, 
+    changeStatus,
+    removeArticle
+ } from '../../../store/actions/articles';
 import Paginate from './paginate';
 
 const AdminArticles = () => {
@@ -22,10 +27,28 @@ const AdminArticles = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [removeAlert, setRemoveAlert] = useState(false);
+    const [idToRemove, setIdToRemove] = useState(null);
+
     useEffect( () => {
         dispatch(getPageArticles({}))
         // console.log(articles, 'index/dispatch')
     }, [])
+
+    const handleClose = () => setRemoveAlert(false);
+    const handleDelete = () => {
+        // console.log(idToRemove, 'handleDelete')
+        dispatch(removeArticle(idToRemove))
+        .unwrap()
+        .finally(() => {
+            setRemoveAlert(false)
+            setIdToRemove(null)
+        })
+    }
+    const handleShow = (id=null) => {
+        setIdToRemove(id)
+        setRemoveAlert(true);
+    }
 
     // PAGINATION FUNCTIONS
     const gotoPrevPage = (page) => {
@@ -72,9 +95,24 @@ const AdminArticles = () => {
                         gotoNextPage={(page) => gotoNextPage(page)}
                         gotoEdit={(id) => gotoEdit(id)}
                         handleStatusChange={(status, id) => handleStatusChange(status, id)}
+                        handleShow={(id) => handleShow(id)}
                     />
                 </>
-                
+                <Modal show={removeAlert} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Are you sure?</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        There is no going back!
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant='secondary'
+                            onClick={handleClose}>Cancel
+                        </Button>
+                        <Button variant='danger'
+                            onClick={() => handleDelete()}>DELETE</Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </>
     )

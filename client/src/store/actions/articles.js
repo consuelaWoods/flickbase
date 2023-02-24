@@ -59,7 +59,7 @@ export const getPageArticles = createAsyncThunk(
                 },
                 getAuthHeader()
             );
-            console.log(request.data, 'actions');
+            // console.log(request.data, 'actions');
             return request.data;
         } catch(error){
             dispatch(errorGlobal(error.response.data.message))
@@ -86,6 +86,25 @@ export const changeStatus = createAsyncThunk(
             newState[position] = article;
             dispatch(successGlobal('Status updated!!'))
             return newState;
+
+        } catch(error){
+            dispatch(errorGlobal(error.response.data.message))
+            throw error
+        }
+    }
+)
+export const removeArticle = createAsyncThunk(
+    //http://127.0.0.1:3001/api/articles/article/63eeaa697edcd88a5d0156ca?
+    'articles/removeArticle',
+    async(_id, {dispatch, getState}) => {
+        try {
+            await axios.delete(`/api/articles/article/${_id}`, getAuthHeader())
+            dispatch(successGlobal('Article removed!!'))
+
+            //refresh screen
+            let page = getState().articles.adminArticles.page
+            dispatch(getPageArticles({page}))
+            return true;
 
         } catch(error){
             dispatch(errorGlobal(error.response.data.message))
