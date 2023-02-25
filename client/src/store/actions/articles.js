@@ -3,7 +3,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { errorGlobal, successGlobal } from '../reducers/notifications';
 import { getAuthHeader } from '../../utils/tools';
-import { create } from '@mui/material/styles/createTransitions';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 

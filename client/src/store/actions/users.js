@@ -62,3 +62,47 @@ export const signOut = createAsyncThunk(
         removeTokenCookie();
     }
 )
+
+export const updateProfile = createAsyncThunk(
+    //http://127.0.0.1:3001/api/users/profile
+    'user/updateProfile',
+    async(data, {dispatch}) => {
+        try {
+            const profile = await axios.patch(
+                `/api/users/profile`,
+                data,
+                getAuthHeader()
+            )
+            dispatch(successGlobal('Profile updated!!'))
+            return {
+                firstname: profile.data.firstname,
+                lastname: profile.data.lastname,
+                age: profile.data.age
+            }
+        } catch (err) {
+            dispatch (errorGlobal(err.response.data.message));
+            throw err;
+        }
+    }
+)
+
+export const changeEmail = createAsyncThunk(
+    //http://127.0.0.1:3001/api/users/email
+    'users/changeEmail',
+    async (data, {dispatch}) => {
+        try {
+            const request = axios.patch('/api/users/email', {
+                email: data.email,
+                newEmail: data.newEmail
+            }, getAuthHeader());
+            dispatch(successGlobal('Email updated!!'))
+            return {
+                email: request.data.user.email
+            }
+
+        } catch (err) {
+            dispatch (errorGlobal(err.response.data.message));
+            throw err;
+        }
+    }
+)

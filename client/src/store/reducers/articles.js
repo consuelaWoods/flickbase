@@ -28,7 +28,7 @@ export const articlesSlice = createSlice({
         .addCase(getPageArticles.pending, (state) => {state.loading = true})
         .addCase(getPageArticles.fulfilled, (state, action) => {
             state.loading = false;
-            console.log(action.payload, 'reducer')
+            // console.log(action.payload, 'reducer')
             state.adminArticles = action.payload;
         })
         .addCase(getPageArticles.rejected, (state) => {state.loading = false})
