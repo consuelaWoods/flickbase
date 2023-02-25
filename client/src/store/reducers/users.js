@@ -83,7 +83,8 @@ export const usersSlice = createSlice({
 
         //UPDATE EMAIL
         .addCase(changeEmail.pending, (state) => {state.loading = true})
-        .addCase(changeEmail.fulfilled, (state, action) => {
+        .addCase(changeEmail.fulfilled,(state,action)=>{
+            state.loading = false;
             state.data = {...state.data, ...action.payload}
         })
         .addCase(changeEmail.rejected, (state) => {state.loading = false})

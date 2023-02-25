@@ -26,7 +26,7 @@ const EmailStepper = ({ user, closeModal }) => {
 
     const formik = useFormik({
         enableReinitialize: true,
-        initialValues: {email:'', newEmail:''},
+        initialValues: {email:'', newemail:''},
         validationSchema: Yup.object({
             email: Yup.string()
             .required("This is required")
@@ -34,11 +34,11 @@ const EmailStepper = ({ user, closeModal }) => {
             .test('match','Please check your email', (email) => {
                 return email === user.data.email
             }),
-            newEmail: Yup.string()
+            newemail: Yup.string()
             .required("This is required")
             .email("This is not a valid email")
-            .test('equal','Enter a different email', (newEmail) => {
-                return newEmail !== user.data.email
+            .test('equal','Enter a different email', (newemail) => {
+                return newemail !== user.data.email
             })
         }),
         onSubmit: (values) => {
@@ -110,11 +110,11 @@ const EmailStepper = ({ user, closeModal }) => {
                                     name="newEmail"
                                     label="Enter you new email"
                                     variant='outlined'
-                                    {...formik.getFieldProps('newEmail')}
-                                    {...errorHelper(formik,'newEmail')}
+                                    {...formik.getFieldProps('newemail')}
+                                    {...errorHelper(formik,'newemail')}
                                 />
                                 { backBtn() }
-                                {formik.values.newEmail && !formik.errors.newEmail
+                                {formik.values.newemail && !formik.errors.newEnewemailmail
                                     ? nextBtn()
                                     : null
                                 }
@@ -125,9 +125,9 @@ const EmailStepper = ({ user, closeModal }) => {
                         {activeStep === 2
                             ? <div className='form-group'>
                                 <Button className='mt-3 me-2' variant='contained' color="primary" onClick={formik.submitForm}>
-                                    Yes, change my email
+                                    Yes change my email
                                 </Button>
-                                { backBtn() }
+                                { backBtn()}
                             </div>
                             : null
                         }

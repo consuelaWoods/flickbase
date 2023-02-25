@@ -91,13 +91,17 @@ export const changeEmail = createAsyncThunk(
     'users/changeEmail',
     async (data, {dispatch}) => {
         try {
+            // console.log(data, 'action/changeEmail');
             const request = axios.patch('/api/users/email', {
-                email: data.email,
-                newEmail: data.newEmail
+                // email: data.email,
+                newemail: data.newemail
             }, getAuthHeader());
             dispatch(successGlobal('Email updated!!'))
+            // console.log(request, 'actions/changeEmail complete')
             return {
-                email: request.data.user.email
+                // email: request.data.user.email,
+                email: request.user.email,
+                verified: false
             }
 
         } catch (err) {
