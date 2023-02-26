@@ -2,13 +2,19 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
     addArticle,
     getPageArticles,
-    changeStatus
+    changeStatus,
+    homeLoadMore
 } from '../actions/articles';
 
 export const articlesSlice = createSlice({
     name: "articles",
     initialState: {
-        homesort: {},
+        homeSort: {
+            sortby:"_id",
+            order:"desc",
+            limit:2,
+            skip:0
+        },
         loading: false,
         articles: [],
         current: null
@@ -37,6 +43,15 @@ export const articlesSlice = createSlice({
         .addCase(changeStatus.fulfilled, (state, action) => {
             state.adminArticles.docs = action.payload
         })
+
+        //LOAD ARTICLES
+        .addCase(homeLoadMore.pending, (state) => {state.loading = true})
+        .addCase(homeLoadMore.fulfilled,(state,action)=>{ 
+            state.homeSort.skip = action.payload.sort.skip
+            state.articles = action.payload.newState
+            state.loading = false
+        })
+        .addCase(homeLoadMore.rejected, (state) => {state.loading = false})
     }
 });
 export default articlesSlice.reducer;
