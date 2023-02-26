@@ -3,7 +3,8 @@ import {
     addArticle,
     getPageArticles,
     changeStatus,
-    homeLoadMore
+    homeLoadMore,
+    getUserArticle
 } from '../actions/articles';
 
 export const articlesSlice = createSlice({
@@ -52,6 +53,13 @@ export const articlesSlice = createSlice({
             state.loading = false
         })
         .addCase(homeLoadMore.rejected, (state) => {state.loading = false})
+
+        .addCase(getUserArticle.pending, (state) => {state.loading = true})
+        .addCase(getUserArticle.rejected, (state) => {state.loading = false})
+        .addCase(getUserArticle.fulfilled, (state, action) => {
+            state.loading = false
+            state.current = action.payload
+        })
     }
 });
 export default articlesSlice.reducer;
