@@ -41,18 +41,24 @@ const Header = () => {
     }, [location.pathname, dispatch])
 
     const signOutUser = () => {
-        // alert ('sign out')
         dispatch(signOut())
         navigate('/')
     }
 
     return (
-        <nav className={`navbar fixed-top ${site.layout}`}>
-            <Link to="/" className='navbar-brand d-flex align-items-center fredoka_ff'>
-                Flickbase
-            </Link>
-            <SideDrawer users={users} signOutUser={signOutUser}/>
-        </nav>
+        <>
+            {/* {!users.data.verified && users.auth */}
+             { users.auth && !users.data.verified
+                ? <div className='not_verified'>Not Verified</div>
+                : null            
+            }
+            <nav className={`navbar fixed-top ${site.layout}`}>
+                <Link to="/" className='navbar-brand d-flex align-items-center fredoka_ff'>
+                    Flickbase
+                </Link>
+                <SideDrawer users={users} signOutUser={signOutUser}/>
+            </nav>
+        </>
     )
 }
 export default Header;

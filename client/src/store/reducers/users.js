@@ -26,7 +26,7 @@ export const usersSlice = createSlice({
     name: "users",
     initialState: {DEFAULT_USER_STATE},
     reducers: {
-
+        setVerify: (state) => {state.data.verified = true;}
     },
     // async functions
     extraReducers: (builder) => {
@@ -90,4 +90,5 @@ export const usersSlice = createSlice({
         .addCase(changeEmail.rejected, (state) => {state.loading = false})
     }
 });
+export const {setVerify} = usersSlice.actions;
 export default usersSlice.reducer;
