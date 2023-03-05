@@ -7,29 +7,32 @@ export const formValues = {
     score:'',
     director:'',
     actors:[],
-    status:'draft'
+    status:'draft',
+    category: ''
 }
 
 export const validation = () => (
     Yup.object({
         title:Yup.string()
-        .required('Sorry the title is required'),
+            .required('Sorry, the title is required'),
         content:Yup.string()
-        .required('Sorry the content is required')
-        .min(50,'That is it ? ...write some more'),
+            .required('Sorry, the content is required')
+            .min(50,'That is it ? ...write some more'),
         excerpt:Yup.string()
-        .required('Sorry the excerpt is required')
-        .max(500,'Sorry its 500 max'),
+            .required('Sorry, the excerpt is required')
+            .max(500,'Sorry, it is 500 max'),
         score: Yup.number()
-        .required('Sorry the score is required')
-        .min(0,'0 is the minimum')
-        .max(100,'100 is the max'),
+            .required('Sorry, the score is required')
+            .min(0,'0 is the minimum')
+            .max(100,'100 is the max'),
         director:Yup.string()
-        .required('Sorry the director is required'),
+            .required('Sorry, the director is required'),
         actors:Yup.array()
-        .required('Must have actors')
-        .min(3,'Minimum is 3'),
+            .required('Must have actors')
+            .min(3,'Minimum is 3'),
         status:Yup.string()
-        .required('Sorry the status is required'),
+            .required('Sorry, the status is required'),
+        category:Yup.string()
+            .required("Sorry, the category is required")
     })
 )

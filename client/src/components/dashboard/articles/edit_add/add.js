@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useFormik, FieldArray, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -25,7 +25,7 @@ import { errorHelper, Loader } from '../../../../utils/tools';
 import { validation, formValues } from './validationSchema';
 import WYSIWYG from '../../../../utils/forms/wysiwyg';
 
-import { addArticle } from '../../../../store/actions/articles';
+import { addArticle, getCategories } from '../../../../store/actions/articles';
 
 const AddArticle = () => {
     const articles = useSelector(state => state.articles);
@@ -55,6 +55,10 @@ const AddArticle = () => {
     const handleEditorBlur = (blur) => {
         setEditorBlur(true)
     }
+
+    useEffect( () => {
+        dispatch(getCategories({}))
+    }, [])
 
     return (
         <>
@@ -187,6 +191,36 @@ const AddArticle = () => {
                     { formik.errors.status && formik.touched.status
                         ? <FormHelperText error={true}>
                             { formik.errors.status }
+                        </FormHelperText>
+                        :null
+                    }
+                </FormControl>
+                <Divider className='mt-3 mb-3'/>
+
+                <FormControl fullWidth>
+                    <InputLabel>Select a category</InputLabel>
+                    <Select 
+                        name="category"
+                        label="Select a category"
+                        {...formik.getFieldProps('category')}
+                        error={formik.errors.category && formik.touched.category
+                            ? true
+                            : false
+                        }
+                    >
+                        <MenuItem value=""><em>None</em></MenuItem>
+                        {articles.categories
+                            ? articles.categories.map(item => (
+                                <MenuItem key={item._id} value={item._id}>
+                                    {item.name}
+                                </MenuItem>
+                            ))
+                            : null
+                        }
+                    </Select>
+                    { formik.errors.category && formik.touched.category
+                        ? <FormHelperText error={true}>
+                            { formik.errors.category }
                         </FormHelperText>
                         :null
                     }

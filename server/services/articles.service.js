@@ -66,7 +66,7 @@ const deleteArticleById = async (_id) => {
 const allArticles = async (req) => {
     const sortby = req.query.sortby || "_id";
     const order = req.query.order || "desc";
-    const limit = req.query.limit || 2;
+    const limit = req.query.limit || 4;
     try { 
         const articles = await Article
             .find({status:"public"})
@@ -81,7 +81,7 @@ const allArticles = async (req) => {
 const moreArticles  = async (req) => {
     const sortby = req.body.sortby || "_id";
     const order = req.body.order || "desc";
-    const limit = req.body.limit || 2;
+    const limit = req.body.limit || 4;
     const skip = req.body.skip || 0;
     try { 
         const articles = await Article

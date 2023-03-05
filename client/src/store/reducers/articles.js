@@ -4,7 +4,8 @@ import {
     getPageArticles,
     changeStatus,
     homeLoadMore,
-    getUserArticle
+    getUserArticle,
+    getCategories
 } from '../actions/articles';
 
 export const articlesSlice = createSlice({
@@ -18,7 +19,8 @@ export const articlesSlice = createSlice({
         },
         loading: false,
         articles: [],
-        current: null
+        current: null,
+        categories: []
     },
     reducers: {},
     extraReducers:(builder) => {
@@ -59,6 +61,11 @@ export const articlesSlice = createSlice({
         .addCase(getUserArticle.fulfilled, (state, action) => {
             state.loading = false
             state.current = action.payload
+        })
+
+        // LOAD CATEGORIES
+        .addCase(getCategories.fulfilled, (state, action) => {
+            state.categories = action.payload;
         })
     }
 });
