@@ -80,3 +80,6 @@ and restart the server
 
 //google email
 // app=Flickbase pass=kyvlfhjocaleyezp
+
+//heroku - yahoo email pass=Kk3j2d*3^ypZFT/
+//canceled

@@ -11,7 +11,8 @@ let grantsObject = {
     admin: {
         test: allRights,
         profile: allRights,
-        articles: allRights
+        articles: allRights,
+        categories: allRights
     },
     user: {
         test: {

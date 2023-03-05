@@ -1,4 +1,5 @@
 const { Article } = require('../models/articles');
+const { Category } = require('../models/categories');
 const httpsStatus = require('http-status');
 const { ApiError } = require('../middleware/apiError');
 
@@ -17,7 +18,7 @@ const addArticle = async (body) => {
 }
 const getArticleById = async (_id, user) => {
     try {
-        const article = await Article.findById(_id);
+        const article = await Article.findById(_id).populate('category');
         if (!article) throw new ApiError(httpsStatus.NOT_FOUND, 'Article not found');
         if (user.role === 'user' && article.status === 'draft') {
             throw new ApiError(httpsStatus.NOT_FOUND, 'Draft can only be viewed by admins');
@@ -30,7 +31,7 @@ const getArticleById = async (_id, user) => {
 //user not logged in
 const getUsersArticleById = async (_id) => {
     try {
-        const article = await Article.findById(_id);
+        const article = await Article.findById(_id).populate('category');
         if (!article) throw new ApiError(httpsStatus.NOT_FOUND, 'Article not found');
         if (article.status === 'draft') throw new ApiError(httpsStatus.NOT_FOUND, 'Draft cannot be viewed');
         return article;
@@ -69,6 +70,7 @@ const allArticles = async (req) => {
     try { 
         const articles = await Article
             .find({status:"public"})
+            .populate('category')
             .sort([[sortby, order]])
             .limit(parseInt(limit));
         return articles;
@@ -84,6 +86,7 @@ const moreArticles  = async (req) => {
     try { 
         const articles = await Article
             .find({status:"public"})
+            .populate('category')
             .sort([[sortby, order]])
             .skip(skip)
             .limit(parseInt(limit));
@@ -94,16 +97,33 @@ const moreArticles  = async (req) => {
 }
 const paginateAdminArticles = async (req) => {
     try { 
-        let aggQuery = Article.aggregate();
+        // let aggQuery = Article.aggregate();
+        let aggQueryArray = [];
+
         if (req.body.keywords && req.body != '') {
             const re = new RegExp(`${req.body.keywords}`,'gi')
-            aggQuery = Article.aggregate([
+            // aggQuery = Article.aggregate([
+            //     { $match: { title:{ $regex:re}}}
+            // ]);
+            aggQueryArray.push(
                 { $match: { title:{ $regex:re}}}
-            ]);
-        } else {
-            aggQuery = Article.aggregate();
-        }
+            )
 
+        // } else {
+        //     aggQuery = Article.aggregate();
+        }
+        aggQueryArray.push(
+            { $lookup: {
+                from: "categories",
+                localField: "category",
+                foreignField: "_id",
+                as: "category"
+                }
+            },
+            { $unwind: "$category"}
+        )
+
+        let aggQuery = Article.aggregate(aggQueryArray)
         const limit = req.body.limit ? req.body.limit : 5;
         const options = {
             page: req.body.page,
@@ -117,6 +137,25 @@ const paginateAdminArticles = async (req) => {
         throw err
     }
 }
+const addCategory = async(body) => {
+    try {
+        const category = new Category({
+            ...body
+        });
+        await category.save();
+        return category;
+    } catch(err) {
+        throw err
+    }
+}
+const findAllCategories = async() => {
+    try {
+        const categories = await Category.find()
+        return categories
+    } catch(err) {
+        throw err
+    }
+}
 
 module.exports = {
     addArticle,
@@ -126,5 +165,7 @@ module.exports = {
     deleteArticleById,
     allArticles,
     moreArticles,
-    paginateAdminArticles
+    paginateAdminArticles,
+    addCategory,
+    findAllCategories
 }

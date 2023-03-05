@@ -16,6 +16,10 @@ router.route('/article/:id')
 
 router.post('/admin/paginate', auth('readAny','articles'), articlesController.adminPaginate)
 
+router.route('/categories')
+    .post(auth('createAny','categories'), articlesController.createCategory)
+    .get(auth('readAny','categories'), articlesController.getAllCategories)
+   
 //not logged in users
 router.route('/users/article/:id')
     .get(articlesController.getUsersArticleById)

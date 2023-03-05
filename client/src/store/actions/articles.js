@@ -48,7 +48,7 @@ export const updateArticle = createAsyncThunk(
 )
 export const getPageArticles = createAsyncThunk(
     'articles/getPageArticles',
-    async({page=1, limit=2, keywords=''}, {dispatch}) => {
+    async({page=1, limit=4, keywords=''}, {dispatch}) => {
         try {
             const request = await axios.post(
                 '/api/articles/admin/paginate', 
