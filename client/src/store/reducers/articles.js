@@ -22,7 +22,11 @@ export const articlesSlice = createSlice({
         current: null,
         categories: []
     },
-    reducers: {},
+    reducers: {
+        updateCategories: (state, action) => {
+            state.categories = action.payload;
+        }
+    },
     extraReducers:(builder) => {
         builder
         // ADD 
@@ -69,4 +73,5 @@ export const articlesSlice = createSlice({
         })
     }
 });
+export const { updateCategories } = articlesSlice.actions
 export default articlesSlice.reducer;

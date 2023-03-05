@@ -39,12 +39,19 @@ const AdminLayout = (props) => {
                                 </>
                                 : null
                             } */}
+                            
                             <ListItem button 
-                                        component={RouterLink}
-                                        to='/dashboard/articles'
-                                    >
-                                        <ListItemText primary='Articles'/>
-                                    </ListItem>
+                                component={RouterLink}
+                                to='/dashboard/articles'
+                            >
+                                <ListItemText primary='Articles'/>
+                            </ListItem>
+                            <ListItem button
+                                component={RouterLink}
+                                to='/dashboard/categories'
+                            >
+                                <ListItemText primary='Categories'/>
+                            </ListItem>
                         </List>
                     </div>
                 </nav>

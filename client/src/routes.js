@@ -19,6 +19,7 @@ import DashboardMain from './components/dashboard/main';
 import AddArticle from './components/dashboard/articles/edit_add/add';
 import EditArticle from './components/dashboard/articles/edit_add/edit';
 import Article from './components/articles/article';
+import AdminCategories from './components/dashboard/categories';
 
 const Router = () => {
     const [loading, setLoading] = useState(true);
@@ -53,6 +54,7 @@ const Router = () => {
                         <Route path='articles' element={<AdminArticles/>}/>
                         <Route path='articles/add' element={<AddArticle/>}/>
                         <Route path='articles/edit/:articleId' element={<EditArticle/>}/>
+                        <Route path='categories' element={<AdminCategories/>}/>
                     </Route>
                     <Route path='/verification' element={<AcctVerify/>}/>
                     <Route path='/articles/article/:id' element={<Article/>}/>

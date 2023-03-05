@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { errorGlobal, successGlobal } from '../reducers/notifications';
 import { getAuthHeader } from '../../utils/tools';
+import { updateCategories } from '../reducers/articles';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -147,6 +148,24 @@ export const getCategories = createAsyncThunk(
         try {
             const request = await axios.get('/api/articles/categories', getAuthHeader())
             return request.data
+        } catch (err) {
+            dispatch(errorGlobal(err.response.data.message))
+            throw err
+        }
+    }
+)
+export const addCategory = createAsyncThunk(
+    'acritcles/addCategory',
+    async(data, {dispatch, getState}) => {
+        try {
+            const category = await axios.post('/api/articles/categories', data, getAuthHeader())
+            const state = getState().articles.categories;
+            const prevState = [...state]
+            const newState = [...prevState, category.data];
+            dispatch(updateCategories(newState));
+            dispatch(successGlobal('New category created!!'))
+            return newState;
+
         } catch (err) {
             dispatch(errorGlobal(err.response.data.message))
             throw err
