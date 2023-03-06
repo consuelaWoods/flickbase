@@ -83,3 +83,6 @@ and restart the server
 
 //heroku - yahoo email pass=Kk3j2d*3^ypZFT/
 //canceled
+
+//netlify
+// cwoods88keys@yahoo.com:&.3gMYX#eq4Th9i
